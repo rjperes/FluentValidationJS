@@ -5,13 +5,13 @@
 		<style type="text/css">
 		</style>
 		<script type="text/javascript" src="fluent-validation.js"></script>
-		<script type="text/javascript" src="fluent-validation-test.js"></script>
 		<script type="text/javascript">
 		
-		var obj = '1';
+		var obj = 'a';
 		debugger;
 		Validation
 			.validate(obj)
+			.reporting(function(msg) { console.log(msg) })
 			.isPrimitive()
 			.isValid(function(x) { return true })
 			.contains('1')

@@ -5,6 +5,7 @@
 function Validation(obj) {	
 	this.obj = obj;
 	this.negated = false;
+	this.reporting(null);
 }
 
 /**
@@ -49,8 +50,24 @@ function getArguments(args, array) {
  */
 Validation.prototype.assert = function(error, msg) {
 	if (error != this.negated) {
-		throw new Error(msg);
+		this.report(msg);
 	}
+};
+
+/**
+ * Changes the reporting function in case of a validation error. The default is to throw an Error
+ * @param {function} fn A reporting function
+ * @returns {object} The Validation object
+ */
+Validation.prototype.reporting = function(fn) {
+	if ((!fn) || (typeof fn !== 'function')) {
+		fn = function(msg) {
+			throw new Error(msg);
+		};
+	}
+	
+	this.report = fn;
+	return this;
 };
 
 /**
@@ -257,6 +274,18 @@ Validation.prototype.isFunction = function(msg) {
 	var self = this;
 	msg = msg || 'Validation failed: object is not a function';
 	var error = (typeof self.obj !== 'function');
+	this.assert(error, msg);
+	return this;	
+};
+
+/**
+ * Checks if the value to validate is a boolean
+ * @param {string} msg An optional error message
+ */
+Validation.prototype.isBoolean = function(msg) {
+	var self = this;
+	msg = msg || 'Validation failed: object is not a boolean';
+	var error = (typeof self.obj !== 'boolean');
 	this.assert(error, msg);
 	return this;	
 };
