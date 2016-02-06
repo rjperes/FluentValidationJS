@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+		<style type="text/css">
+		</style>
+		<script type="text/javascript" src="fluent-validation.js"></script>
+		<script type="text/javascript" src="fluent-validation-test.js"></script>
+		<script type="text/javascript">
+		
+		var obj = '1';
+		debugger;
+		Validation
+			.validate(obj)
+			.isPrimitive()
+			.isValid(function(x) { return true })
+			.contains('1')
+			.isOdd()
+			.isOneOf('1', '2', '3')
+			.isNoneOf('4', '5', '6')
+			.isEqualTo(1)
+			.isDefined()
+			.isNotNullOrWhitespace()
+			.isString()
+			.isNumber()
+			.hasLength(2, 1)
+			.isMatch('\\d+')
+			.isPositive()
+			.not()
+			.isNull()
+			.isEven()
+			.isNegative()
+			.isPromise()
+			.isArray()
+			.isFunction()
+			.isDate()
+			.isError()
+			.isJSON();
+		
+			alert('ok');
+		
+		</script>
+	</head>
+</html>
