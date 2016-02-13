@@ -1,4 +1,13 @@
 /**
+
+FluentValidationJS
+A fluent validation library in JavaScript
+https://github.com/rjperes/FluentValidationJS
+Copyright (c) Ricardo Peres 2016
+
+ */
+
+/**
  * Builds a new Validation object
  * @param {object} obj The object to validate
  */
@@ -291,6 +300,18 @@ Validation.prototype.isBoolean = function(msg) {
 };
 
 /**
+ * Checks if the value to validate is defined and not null
+ * @param {string} msg An optional error message
+ */
+Validation.prototype.isDefinedAndNonNull = function(msg) {
+	var self = this;
+	msg = msg || 'Validation failed: object is undefined or null';
+	var error = (self.obj === undefined) || (self.obj === null);
+	this.assert(error, msg);
+	return this;
+};
+
+/**
  * Checks if the value to validate is defined
  * @param {string} msg An optional error message
  */
@@ -310,6 +331,19 @@ Validation.prototype.isNull = function(msg) {
 	var self = this;
 	msg = msg || 'Validation failed: object is not null';
 	var error = (self.obj !== null);
+	this.assert(error, msg);
+	return this;
+};
+
+/**
+ * Checks if the value to validate is an instance of a class
+ * @param {function} clz A class
+ * @param {string} msg An optional error message
+ */
+Validation.prototype.isInstanceOf = function(clz, msg) {
+	var self = this;
+	msg = msg || 'Validation failed: object is not an instance of the given class';
+	var error = !(self.obj instanceof clz);
 	this.assert(error, msg);
 	return this;
 };
