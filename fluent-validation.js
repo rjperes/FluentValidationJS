@@ -15,7 +15,29 @@ function Validation(obj) {
 	this.obj = obj;
 	this.negated = false;
 	this.reporting(null);
+	this.errors = [];
 }
+
+/**
+ * Uses an exception to report validation errors
+ */
+Validation.ExceptionReporting = function(msg) {
+	throw new Error(msg);
+};
+
+/**
+ * Uses console.log to report validation errors
+ */
+Validation.ConsoleReporting = function(msg) {
+	console.log(msg);
+};
+
+/**
+ * Uses window.alert to report validation errors
+ */
+Validation.AlertReporting = function(msg) {
+	window.alert(msg);
+};
 
 /**
  * Try to find the first argument of a given type
@@ -41,8 +63,7 @@ function findFirstOfType(args, type) {
 function getArguments(args, array) {
 	var newArray = args;
 	
-	if (!(args instanceof Array))
-	{
+	if (!(args instanceof Array)) {
 		newArray = [ args ];
 		for (var i = 1; i < array.length; ++i) {
 			newArray.push(array[i]);
@@ -53,14 +74,57 @@ function getArguments(args, array) {
 }
 
 /**
- * Throws an exception in case of an error
+ * Calls the reporting function. For internal use only
  * @param {boolean} error An error flag
  * @param {string} msg An error message
  */
 Validation.prototype.assert = function(error, msg) {
 	if (error != this.negated) {
+		this.errors.push(msg);
 		this.report(msg);
 	}
+};
+
+/**
+ * Throws an exception if the validation failed
+ */
+Validation.prototype.throwOnError = function() {
+	if (this.errors.length != 0) {
+		Validation.ExceptionReporting(this.errors[0]);
+	}	
+};
+
+/**
+ * Returns the validation errors
+ * @returns {array} An array with all the errors
+ */
+Validation.prototype.getErrors = function() {
+	return this.errors;
+};
+
+/**
+ * Checks if there are validation errors
+ * @returns {boolean} An indication of whether there are errors or not
+ */
+Validation.prototype.hasErrors = function() {
+	return this.errors.length != 0;	
+};
+
+/**
+ * Checks if there are no validation errors
+ * @returns {boolean} An indication of whether there are errors or not
+ */
+Validation.prototype.check = function() {
+	return this.errors.length == 0;
+};
+
+/**
+ * Clears all the errors
+ * @returns {object} The Validation object
+ */
+Validation.prototype.clear = function() {
+	this.errors = [];
+	return this;
 };
 
 /**
@@ -70,8 +134,8 @@ Validation.prototype.assert = function(error, msg) {
  */
 Validation.prototype.reporting = function(fn) {
 	if ((!fn) || (typeof fn !== 'function')) {
-		fn = function(msg) {
-			throw new Error(msg);
+		fn = function(msg) {			
+			Validation.ConsoleReporting(msg);
 		};
 	}
 	
