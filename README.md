@@ -1,6 +1,8 @@
 # FluentValidationJS
-A fluent validation library in JavaScript
+A fluent validation library for JavaScript
+
 https://github.com/rjperes/FluentValidationJS
+
 Copyright (c) Ricardo Peres 2016
 
 Usage:
@@ -37,4 +39,13 @@ Validation
 	.isError()
 	.isJSON()
 	.throwOnError();
+</pre>
+
+By default, adds all errors to an array. Then, one of the terminal methods should be called:
+
+<pre>
+throwOnError: does just what it says
+getErrors: retrieves the list of validation errors
+hasErrors: returns true if there are validation errors
+check: returns true if there are no validation errors
 </pre>

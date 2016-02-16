@@ -1,7 +1,7 @@
 /**
 
 FluentValidationJS
-A fluent validation library in JavaScript
+A fluent validation library for JavaScript
 https://github.com/rjperes/FluentValidationJS
 Copyright (c) Ricardo Peres 2016
 
