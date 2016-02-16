@@ -5,6 +5,7 @@ Copyright (c) Ricardo Peres 2016
 
 Usage:
 
+<pre>
 var obj = '1';
 
 Validation
@@ -36,3 +37,4 @@ Validation
 	.isError()
 	.isJSON()
 	.throwOnError();
+</pre>
