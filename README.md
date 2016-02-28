@@ -49,3 +49,9 @@ getErrors: retrieves the list of validation errors
 hasErrors: returns true if there are validation errors
 check: returns true if there are no validation errors
 </pre>
+
+It can be used in Node.js:
+
+<pre>
+var Validation = require("./fluent-validation");
+</pre>
