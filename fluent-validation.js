@@ -147,6 +147,7 @@ Validation.prototype.reporting = function(fn) {
  * Uses an external validation function
  * @param {function} fn A validation function
  * @param {string} msg An optional error message
+ * @returns {object} The Validation object
  */
 Validation.prototype.isValid = function(fn, msg) {
 	var self = this;
@@ -157,8 +158,35 @@ Validation.prototype.isValid = function(fn, msg) {
 };
 
 /**
+ * Checks if the value to validate is truthy (not null, false, undefined, 0 or empty string)
+ * @param {string} msg An optional error message
+ * @returns {object} The Validation object
+ */
+Validation.prototype.isTruthy = function(msg) {
+	var self = this;
+    msg = msg || 'Validation failed: object is falsey';
+    var error = !self.obj;
+	this.assert(error, msg);
+	return this;
+};
+
+/**
+ * Checks if the value to validate is falsey (null, false, undefined, 0 or empty string)
+ * @param {string} msg An optional error message
+ * @returns {object} The Validation object
+ */
+Validation.prototype.isFalsey = function(msg) {
+	var self = this;
+    msg = msg || 'Validation failed: object is truthy';
+    var error = !!self.obj;
+	this.assert(error, msg);
+	return this;
+};
+
+/**
  * Checks if the value to validate is one of a set of passed values
  * @param {array} args An optional array of arguments
+ * @returns {object} The Validation object
  */
 Validation.prototype.isOneOf = function(args) {
 	var self = this;
@@ -180,6 +208,7 @@ Validation.prototype.isOneOf = function(args) {
 /**
  * Checks if the value to validate is not in a set of passed values
  * @param {array} args An optional array of arguments
+ * @returns {object} The Validation object
  */
 Validation.prototype.isNoneOf = function(args) {
 	var self = this;
@@ -202,6 +231,7 @@ Validation.prototype.isNoneOf = function(args) {
  * Checks if the value to validate contains a supplied value
  * @param {object} value A value to find
  * @param {string} msg An optional error message
+ * @returns {object} The Validation object
  */
 Validation.prototype.contains = function(value, msg) {
 	var self = this;
@@ -224,6 +254,7 @@ Validation.prototype.contains = function(value, msg) {
  * @param {object} value A value to compare against
  * @param {object} arg1 An optional argument
  * @param {object} arg2 An optional argument
+ * @returns {object} The Validation object
  */
 Validation.prototype.isEqualTo = function(value, arg1, arg2) {
 	var self = this;
@@ -246,6 +277,7 @@ Validation.prototype.isEqualTo = function(value, arg1, arg2) {
 /**
  * Checks if the value to validate is a string
  * @param {string} msg An optional error message
+ * @returns {object} The Validation object
  */
 Validation.prototype.isString = function(msg) {
 	var self = this;
@@ -258,6 +290,7 @@ Validation.prototype.isString = function(msg) {
 /**
  * Checks if the value to validate is neither null nor a whitespace string
  * @param {string} msg An optional error message
+ * @returns {object} The Validation object
  */
 Validation.prototype.isNotNullOrWhitespace = function(msg) {
 	var self = this;
@@ -270,6 +303,7 @@ Validation.prototype.isNotNullOrWhitespace = function(msg) {
 /**
  * Checks if the value to validate is a number
  * @param {string} msg An optional error message
+ * @returns {object} The Validation object
  */
 Validation.prototype.isNumber = function(msg) {
 	var self = this;
@@ -282,6 +316,7 @@ Validation.prototype.isNumber = function(msg) {
 /**
  * Checks if the value to validate is a positive number
  * @param {string} msg An optional error message
+ * @returns {object} The Validation object
  */
 Validation.prototype.isPositive = function(msg) {
 	var self = this;
@@ -294,6 +329,7 @@ Validation.prototype.isPositive = function(msg) {
 /**
  * Checks if the value to validate is a negative number
  * @param {string} msg An optional error message
+ * @returns {object} The Validation object
  */
 Validation.prototype.isNegative = function(msg) {
 	var self = this;
@@ -306,6 +342,7 @@ Validation.prototype.isNegative = function(msg) {
 /**
  * Checks if the value to validate is an odd number
  * @param {string} msg An optional error message
+ * @returns {object} The Validation object
  */
 Validation.prototype.isOdd = function(msg) {
 	var self = this;
@@ -318,6 +355,7 @@ Validation.prototype.isOdd = function(msg) {
 /**
  * Checks if the value to validate is an even number
  * @param {string} msg An optional error message
+ * @returns {object} The Validation object
  */
 Validation.prototype.isEven = function(msg) {
 	var self = this;
@@ -330,6 +368,7 @@ Validation.prototype.isEven = function(msg) {
 /**
  * Checks if the value to validate is a finite number
  * @param {string} msg An optional error message
+ * @returns {object} The Validation object
  */
 Validation.prototype.isFinite = function(msg) {
 	var self = this;
@@ -342,6 +381,7 @@ Validation.prototype.isFinite = function(msg) {
 /**
  * Checks if the value to validate is a function
  * @param {string} msg An optional error message
+ * @returns {object} The Validation object
  */
 Validation.prototype.isFunction = function(msg) {
 	var self = this;
@@ -354,6 +394,7 @@ Validation.prototype.isFunction = function(msg) {
 /**
  * Checks if the value to validate is a boolean
  * @param {string} msg An optional error message
+ * @returns {object} The Validation object
  */
 Validation.prototype.isBoolean = function(msg) {
 	var self = this;
@@ -366,6 +407,7 @@ Validation.prototype.isBoolean = function(msg) {
 /**
  * Checks if the value to validate is defined and not null
  * @param {string} msg An optional error message
+ * @returns {object} The Validation object
  */
 Validation.prototype.isDefinedAndNonNull = function(msg) {
 	var self = this;
@@ -378,6 +420,7 @@ Validation.prototype.isDefinedAndNonNull = function(msg) {
 /**
  * Checks if the value to validate is defined
  * @param {string} msg An optional error message
+ * @returns {object} The Validation object
  */
 Validation.prototype.isDefined = function(msg) {
 	var self = this;
@@ -390,6 +433,7 @@ Validation.prototype.isDefined = function(msg) {
 /**
  * Checks if the value to validate is null
  * @param {string} msg An optional error message
+ * @returns {object} The Validation object
  */
 Validation.prototype.isNull = function(msg) {
 	var self = this;
@@ -403,6 +447,7 @@ Validation.prototype.isNull = function(msg) {
  * Checks if the value to validate is an instance of a class
  * @param {function} clz A class
  * @param {string} msg An optional error message
+ * @returns {object} The Validation object
  */
 Validation.prototype.isInstanceOf = function(clz, msg) {
 	var self = this;
@@ -415,6 +460,7 @@ Validation.prototype.isInstanceOf = function(clz, msg) {
 /**
  * Checks if the value to validate is of a primitive type
  * @param {string} msg An optional error message
+ * @returns {object} The Validation object
  */
 Validation.prototype.isPrimitive = function(msg) {
 	var self = this;
@@ -428,6 +474,7 @@ Validation.prototype.isPrimitive = function(msg) {
 /**
  * Checks if the value to validate is an array
  * @param {string} msg An optional error message
+ * @returns {object} The Validation object
  */
 Validation.prototype.isArray = function(msg) {
 	var self = this;
@@ -441,6 +488,7 @@ Validation.prototype.isArray = function(msg) {
  * Checks if the value to validate matches a regular expression
  * @param {string} regex A regular expression
  * @param {string} msg An optional error message
+ * @returns {object} The Validation object
  */
 Validation.prototype.isMatch = function(regex, msg) {
 	var self = this;
@@ -453,6 +501,7 @@ Validation.prototype.isMatch = function(regex, msg) {
 /**
  * Checks if the value to validate is valid JSON
  * @param {string} msg An optional error message
+ * @returns {object} The Validation object
  */
 Validation.prototype.isJSON = function(msg) {
 	var self = this;
@@ -475,6 +524,7 @@ Validation.prototype.isJSON = function(msg) {
  * @param {number} max The maximum length
  * @param {object} arg1 An optional argument
  * @param {object} arg2 An optional argument
+ * @returns {object} The Validation object
  */
 Validation.prototype.hasLength = function(max, arg1, arg2) {
 	var self = this;
@@ -494,6 +544,7 @@ Validation.prototype.hasLength = function(max, arg1, arg2) {
 /**
  * Checks if the value to validate is a Promise
  * @param {string} msg An optional error message
+ * @returns {object} The Validation object
  */
 Validation.prototype.isPromise = function(msg) {
 	var self = this;
@@ -506,6 +557,7 @@ Validation.prototype.isPromise = function(msg) {
 /**
  * Checks if the value to validate is a Date
  * @param {string} msg An optional error message
+ * @returns {object} The Validation object
  */
 Validation.prototype.isDate = function(msg) {
 	var self = this;
@@ -518,6 +570,7 @@ Validation.prototype.isDate = function(msg) {
 /**
  * Checks if the value to validate is an Error
  * @param {string} msg An optional error message
+ * @returns {object} The Validation object
  */
 Validation.prototype.isError = function(msg) {
 	var self = this;
@@ -544,6 +597,10 @@ Object.prototype.validate = function() {
 	return Validation.validate(this);
 };
 
+/**
+ * Validates an object
+ * @returns {object} The Validation object
+ */
 Validation.validate = function(obj) {
 	var val = new Validation(obj);
 	return val;
