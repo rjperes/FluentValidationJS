@@ -3,8 +3,6 @@ A fluent validation library for JavaScript
 
 https://github.com/rjperes/FluentValidationJS
 
-Copyright (c) Ricardo Peres 2016
-
 Usage:
 
 <pre>
@@ -55,3 +53,13 @@ It can be used in Node.js:
 <pre>
 var Validation = require("./fluent-validation");
 </pre>
+
+## Contacts
+If you see any value in this and wish to send me your comments, please do so through GitHub. Questions and suggestions are welcome too!
+
+## Licenses
+This software is distributed under the terms of the Free Software Foundation Lesser GNU Public License (LGPL), version 2.1 (see lgpl.txt).
+
+## Copyright
+Copyright (c) Ricardo Peres 2018
+You are free to use this as you wish, but I ask you to please send me a note about it.
