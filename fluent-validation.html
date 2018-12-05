@@ -1,19 +1,23 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title></title>
-		<style type="text/css">
-		</style>
-		<script type="text/javascript" src="fluent-validation.js"></script>
-		<script type="text/javascript">
-		
+
+<head>
+	<title></title>
+	<style type="text/css">
+	</style>
+	<script type="text/javascript" src="fluent-validation.min.js"></script>
+	<script type="text/javascript">
 		var obj = 'a';
 		debugger;
 		Validation
 			.validate(obj)
-			.reporting(function(msg) { console.log(msg) })
+			.reporting(function (msg) {
+				console.log(msg)
+			})
 			.isPrimitive()
-			.isValid(function(x) { return true })
+			.isValid(function (x) {
+				return true
+			})
 			.contains('1')
 			.isOdd()
 			.isOneOf('1', '2', '3')
@@ -37,10 +41,10 @@
 			.isDate()
 			.isError()
 			.isJSON()
-			//.throwOnError();
-		
-			alert('ok');
-		
-		</script>
-	</head>
+		//.throwOnError();
+
+		alert('ok');
+	</script>
+</head>
+
 </html>
