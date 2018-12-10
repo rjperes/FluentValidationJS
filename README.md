@@ -58,7 +58,7 @@ var Validation = require("./fluent-validation");
 If you see any value in this and wish to send me your comments, please do so through GitHub. Questions and suggestions are welcome too!
 
 ## Licenses
-This software is distributed under the terms of the Free Software Foundation Lesser GNU Public License (LGPL), version 2.1 (see lgpl.txt).
+This software is distributed under the terms of the Free Software Foundation Lesser GNU Public License (LGPL), version 2.1 (see [lgpl.txt](lgpl.txt)).
 
 ## Copyright
 Copyright (c) Ricardo Peres 2018

@@ -11,7 +11,7 @@ Copyright (c) Ricardo Peres 2016
  * Builds a new Validation object
  * @param {object} obj The object to validate
  */
-function Validation(obj) {	
+function Validation(obj) {
 	this.obj = obj;
 	this.negated = false;
 	this.reporting(null);
@@ -21,21 +21,21 @@ function Validation(obj) {
 /**
  * Uses an exception to report validation errors
  */
-Validation.ExceptionReporting = function(msg) {
+Validation.ExceptionReporting = function (msg) {
 	throw new Error(msg);
 };
 
 /**
  * Uses console.log to report validation errors
  */
-Validation.ConsoleReporting = function(msg) {
+Validation.ConsoleReporting = function (msg) {
 	console.log(msg);
 };
 
 /**
  * Uses window.alert to report validation errors
  */
-Validation.AlertReporting = function(msg) {
+Validation.AlertReporting = function (msg) {
 	window.alert(msg);
 };
 
@@ -61,15 +61,15 @@ function findFirstOfType(args, type) {
  * @returns {array} An array of arguments
  */
 function getArguments(args, array) {
-	var newArray = args;
-	
+	var newArray = args,
+		i;
+
 	if (!(args instanceof Array)) {
-		newArray = [ args ];
-		for (var i = 1; i < array.length; ++i) {
+		newArray = [args];
+		for (i = 1; i < array.length; ++i) {
 			newArray.push(array[i]);
 		}
 	}
-	
 	return newArray;
 }
 
@@ -78,7 +78,7 @@ function getArguments(args, array) {
  * @param {boolean} error An error flag
  * @param {string} msg An error message
  */
-Validation.prototype.assert = function(error, msg) {
+Validation.prototype.assert = function (error, msg) {
 	if (error != this.negated) {
 		this.errors.push(msg);
 		this.report(msg);
@@ -88,17 +88,17 @@ Validation.prototype.assert = function(error, msg) {
 /**
  * Throws an exception if the validation failed
  */
-Validation.prototype.throwOnError = function() {
+Validation.prototype.throwOnError = function () {
 	if (this.errors.length != 0) {
 		Validation.ExceptionReporting(this.errors[0]);
-	}	
+	}
 };
 
 /**
  * Returns the validation errors
  * @returns {array} An array with all the errors
  */
-Validation.prototype.getErrors = function() {
+Validation.prototype.getErrors = function () {
 	return this.errors;
 };
 
@@ -106,15 +106,15 @@ Validation.prototype.getErrors = function() {
  * Checks if there are validation errors
  * @returns {boolean} An indication of whether there are errors or not
  */
-Validation.prototype.hasErrors = function() {
-	return this.errors.length != 0;	
+Validation.prototype.hasErrors = function () {
+	return this.errors.length != 0;
 };
 
 /**
  * Checks if there are no validation errors
  * @returns {boolean} An indication of whether there are errors or not
  */
-Validation.prototype.check = function() {
+Validation.prototype.check = function () {
 	return this.errors.length == 0;
 };
 
@@ -122,7 +122,7 @@ Validation.prototype.check = function() {
  * Clears all the errors
  * @returns {object} The Validation object
  */
-Validation.prototype.clear = function() {
+Validation.prototype.clear = function () {
 	this.errors = [];
 	return this;
 };
@@ -132,13 +132,13 @@ Validation.prototype.clear = function() {
  * @param {function} fn A reporting function
  * @returns {object} The Validation object
  */
-Validation.prototype.reporting = function(fn) {
+Validation.prototype.reporting = function (fn) {
 	if ((!fn) || (typeof fn !== 'function')) {
-		fn = function(msg) {			
+		fn = function (msg) {
 			Validation.ConsoleReporting(msg);
 		};
 	}
-	
+
 	this.report = fn;
 	return this;
 };
@@ -149,7 +149,7 @@ Validation.prototype.reporting = function(fn) {
  * @param {string} msg An optional error message
  * @returns {object} The Validation object
  */
-Validation.prototype.isValid = function(fn, msg) {
+Validation.prototype.isValid = function (fn, msg) {
 	var self = this;
 	msg = msg || 'Validation failed: custom validation function';
 	var error = (fn(self.obj) !== true);
@@ -162,10 +162,10 @@ Validation.prototype.isValid = function(fn, msg) {
  * @param {string} msg An optional error message
  * @returns {object} The Validation object
  */
-Validation.prototype.isTruthy = function(msg) {
+Validation.prototype.isTruthy = function (msg) {
 	var self = this;
-    msg = msg || 'Validation failed: object is falsey';
-    var error = !self.obj;
+	msg = msg || 'Validation failed: object is falsey';
+	var error = !self.obj;
 	this.assert(error, msg);
 	return this;
 };
@@ -175,10 +175,10 @@ Validation.prototype.isTruthy = function(msg) {
  * @param {string} msg An optional error message
  * @returns {object} The Validation object
  */
-Validation.prototype.isFalsey = function(msg) {
+Validation.prototype.isFalsey = function (msg) {
 	var self = this;
-    msg = msg || 'Validation failed: object is truthy';
-    var error = !!self.obj;
+	msg = msg || 'Validation failed: object is truthy';
+	var error = !!self.obj;
 	this.assert(error, msg);
 	return this;
 };
@@ -188,19 +188,21 @@ Validation.prototype.isFalsey = function(msg) {
  * @param {array} args An optional array of arguments
  * @returns {object} The Validation object
  */
-Validation.prototype.isOneOf = function(args) {
-	var self = this;
-	var msg = 'Validation failed: objects do not match';
-	var error = arguments.length > 0;
+Validation.prototype.isOneOf = function (args) {
+	var self = this,
+		msg = 'Validation failed: objects do not match',
+		error = arguments.length > 0,
+		i;
+
 	args = getArguments(args, arguments);
-	
-	for (var i = 0; i < args.length; ++i) {
+
+	for (i = 0; i < args.length; ++i) {
 		if (self.obj == args[i]) {
 			error = false;
 			break;
 		}
 	}
-	
+
 	this.assert(error, msg);
 	return this;
 };
@@ -210,19 +212,21 @@ Validation.prototype.isOneOf = function(args) {
  * @param {array} args An optional array of arguments
  * @returns {object} The Validation object
  */
-Validation.prototype.isNoneOf = function(args) {
-	var self = this;
-	var msg = 'Validation failed: objects do not match';
-	var error = false;
+Validation.prototype.isNoneOf = function (args) {
+	var self = this,
+		msg = 'Validation failed: objects do not match',
+		error = false,
+		i;
+
 	args = getArguments(args, arguments);
-		
-	for (var i = 0; i < args.length; ++i) {
+
+	for (i = 0; i < args.length; ++i) {
 		if (self.obj == args[i]) {
 			error = true;
 			break;
 		}
 	}
-	
+
 	this.assert(error, msg);
 	return this;
 };
@@ -233,20 +237,21 @@ Validation.prototype.isNoneOf = function(args) {
  * @param {string} msg An optional error message
  * @returns {object} The Validation object
  */
-Validation.prototype.contains = function(value, msg) {
+Validation.prototype.contains = function (value, msg) {
 	var self = this;
 	msg = msg || 'Validation failed: object does not contain target';
-	var error = self.obj.length != 0;
-	
-	for (var i = 0; i < self.obj.length; ++i) {
+	var error = self.obj.length != 0,
+		i;
+
+	for (i = 0; i < self.obj.length; ++i) {
 		if (self.obj[i] == value) {
 			error = false;
 			break;
 		}
 	}
-	
+
 	this.assert(error, msg);
-	return this;	
+	return this;
 };
 
 /**
@@ -256,20 +261,21 @@ Validation.prototype.contains = function(value, msg) {
  * @param {object} arg2 An optional argument
  * @returns {object} The Validation object
  */
-Validation.prototype.isEqualTo = function(value, arg1, arg2) {
-	var self = this;
-	var caseInsensitive = findFirstOfType([arg1, arg2], 'boolean') || false;
-	var msg = findFirstOfType([arg1, arg2], 'string') || 'Validation failed: objects do not match';
-	var left = self.obj.toString();
-	var right = value.toString();
-			
+Validation.prototype.isEqualTo = function (value, arg1, arg2) {
+	var self = this,
+		caseInsensitive = findFirstOfType([arg1, arg2], 'boolean') || false,
+		msg = findFirstOfType([arg1, arg2], 'string') || 'Validation failed: objects do not match',
+		left = self.obj.toString(),
+		right = value.toString(),
+		error;
+
 	if (caseInsensitive) {
 		left = left.toLowerCase();
 		right = right.toLowerCase();
 	}
 
-	var error = (left != right);
-	
+	error = (left != right);
+
 	this.assert(error, msg);
 	return this;
 };
@@ -279,7 +285,7 @@ Validation.prototype.isEqualTo = function(value, arg1, arg2) {
  * @param {string} msg An optional error message
  * @returns {object} The Validation object
  */
-Validation.prototype.isString = function(msg) {
+Validation.prototype.isString = function (msg) {
 	var self = this;
 	msg = msg || 'Validation failed: object is not a string';
 	var error = ((typeof self.obj !== 'string') && (self.obj.toString() != obj));
@@ -292,7 +298,7 @@ Validation.prototype.isString = function(msg) {
  * @param {string} msg An optional error message
  * @returns {object} The Validation object
  */
-Validation.prototype.isNotNullOrWhitespace = function(msg) {
+Validation.prototype.isNotNullOrWhitespace = function (msg) {
 	var self = this;
 	msg = msg || 'Validation failed: object is null or whitespace';
 	var error = ((self.obj === null) || (self.obj.toString().trim().length == 0));
@@ -305,7 +311,7 @@ Validation.prototype.isNotNullOrWhitespace = function(msg) {
  * @param {string} msg An optional error message
  * @returns {object} The Validation object
  */
-Validation.prototype.isNumber = function(msg) {
+Validation.prototype.isNumber = function (msg) {
 	var self = this;
 	msg = msg || 'Validation failed: object is not a number';
 	var error = ((typeof self.obj !== 'number') && (Number(self.obj) != self.obj));
@@ -318,7 +324,7 @@ Validation.prototype.isNumber = function(msg) {
  * @param {string} msg An optional error message
  * @returns {object} The Validation object
  */
-Validation.prototype.isPositive = function(msg) {
+Validation.prototype.isPositive = function (msg) {
 	var self = this;
 	msg = msg || 'Validation failed: object is not a number';
 	var error = (Number(self.obj) <= 0);
@@ -331,7 +337,7 @@ Validation.prototype.isPositive = function(msg) {
  * @param {string} msg An optional error message
  * @returns {object} The Validation object
  */
-Validation.prototype.isNegative = function(msg) {
+Validation.prototype.isNegative = function (msg) {
 	var self = this;
 	msg = msg || 'Validation failed: object is not a number';
 	var error = (Number(self.obj) >= 0);
@@ -344,7 +350,7 @@ Validation.prototype.isNegative = function(msg) {
  * @param {string} msg An optional error message
  * @returns {object} The Validation object
  */
-Validation.prototype.isOdd = function(msg) {
+Validation.prototype.isOdd = function (msg) {
 	var self = this;
 	msg = msg || 'Validation failed: object is not odd';
 	var error = (Number(self.obj) % 2 === 0);
@@ -357,7 +363,7 @@ Validation.prototype.isOdd = function(msg) {
  * @param {string} msg An optional error message
  * @returns {object} The Validation object
  */
-Validation.prototype.isEven = function(msg) {
+Validation.prototype.isEven = function (msg) {
 	var self = this;
 	msg = msg || 'Validation failed: object is not even';
 	var error = (Number(self.obj) % 2 !== 0);
@@ -370,7 +376,7 @@ Validation.prototype.isEven = function(msg) {
  * @param {string} msg An optional error message
  * @returns {object} The Validation object
  */
-Validation.prototype.isFinite = function(msg) {
+Validation.prototype.isFinite = function (msg) {
 	var self = this;
 	msg = msg || 'Validation failed: object is infinite';
 	var error = !isFinite(self.obj);
@@ -383,12 +389,12 @@ Validation.prototype.isFinite = function(msg) {
  * @param {string} msg An optional error message
  * @returns {object} The Validation object
  */
-Validation.prototype.isFunction = function(msg) {
+Validation.prototype.isFunction = function (msg) {
 	var self = this;
 	msg = msg || 'Validation failed: object is not a function';
 	var error = (typeof self.obj !== 'function');
 	this.assert(error, msg);
-	return this;	
+	return this;
 };
 
 /**
@@ -396,12 +402,12 @@ Validation.prototype.isFunction = function(msg) {
  * @param {string} msg An optional error message
  * @returns {object} The Validation object
  */
-Validation.prototype.isBoolean = function(msg) {
+Validation.prototype.isBoolean = function (msg) {
 	var self = this;
 	msg = msg || 'Validation failed: object is not a boolean';
 	var error = (typeof self.obj !== 'boolean');
 	this.assert(error, msg);
-	return this;	
+	return this;
 };
 
 /**
@@ -409,7 +415,7 @@ Validation.prototype.isBoolean = function(msg) {
  * @param {string} msg An optional error message
  * @returns {object} The Validation object
  */
-Validation.prototype.isDefinedAndNonNull = function(msg) {
+Validation.prototype.isDefinedAndNonNull = function (msg) {
 	var self = this;
 	msg = msg || 'Validation failed: object is undefined or null';
 	var error = (self.obj === undefined) || (self.obj === null);
@@ -422,7 +428,7 @@ Validation.prototype.isDefinedAndNonNull = function(msg) {
  * @param {string} msg An optional error message
  * @returns {object} The Validation object
  */
-Validation.prototype.isDefined = function(msg) {
+Validation.prototype.isDefined = function (msg) {
 	var self = this;
 	msg = msg || 'Validation failed: object is undefined';
 	var error = (self.obj === undefined);
@@ -435,7 +441,7 @@ Validation.prototype.isDefined = function(msg) {
  * @param {string} msg An optional error message
  * @returns {object} The Validation object
  */
-Validation.prototype.isNull = function(msg) {
+Validation.prototype.isNull = function (msg) {
 	var self = this;
 	msg = msg || 'Validation failed: object is not null';
 	var error = (self.obj !== null);
@@ -449,7 +455,7 @@ Validation.prototype.isNull = function(msg) {
  * @param {string} msg An optional error message
  * @returns {object} The Validation object
  */
-Validation.prototype.isInstanceOf = function(clz, msg) {
+Validation.prototype.isInstanceOf = function (clz, msg) {
 	var self = this;
 	msg = msg || 'Validation failed: object is not an instance of the given class';
 	var error = !(self.obj instanceof clz);
@@ -462,11 +468,11 @@ Validation.prototype.isInstanceOf = function(clz, msg) {
  * @param {string} msg An optional error message
  * @returns {object} The Validation object
  */
-Validation.prototype.isPrimitive = function(msg) {
+Validation.prototype.isPrimitive = function (msg) {
 	var self = this;
 	msg = msg || 'Validation failed: object is not of a primitive type';
-	var type = typeof self.obj;
-	var error = ((type !== 'number') && (type !== 'string') && (type !== 'boolean'));
+	var type = typeof self.obj,
+		error = ((type !== 'number') && (type !== 'string') && (type !== 'boolean'));
 	this.assert(error, msg);
 	return this;
 };
@@ -476,7 +482,7 @@ Validation.prototype.isPrimitive = function(msg) {
  * @param {string} msg An optional error message
  * @returns {object} The Validation object
  */
-Validation.prototype.isArray = function(msg) {
+Validation.prototype.isArray = function (msg) {
 	var self = this;
 	msg = msg || 'Validation failed: object is not an array';
 	var error = !Array.isArray(self.obj);
@@ -490,7 +496,7 @@ Validation.prototype.isArray = function(msg) {
  * @param {string} msg An optional error message
  * @returns {object} The Validation object
  */
-Validation.prototype.isMatch = function(regex, msg) {
+Validation.prototype.isMatch = function (regex, msg) {
 	var self = this;
 	msg = msg || 'Validation failed: object does not match regular expression';
 	var error = !(new RegExp(regex).test(self.obj.toString()));
@@ -503,16 +509,13 @@ Validation.prototype.isMatch = function(regex, msg) {
  * @param {string} msg An optional error message
  * @returns {object} The Validation object
  */
-Validation.prototype.isJSON = function(msg) {
+Validation.prototype.isJSON = function (msg) {
 	var self = this;
 	msg = msg || 'Validation failed: object is not valid JSON';
 	var error = false;
-	try
-	{
+	try {
 		error = (typeof JSON.parse(self.obj) !== 'object');
-	}
-	catch(e)
-	{
+	} catch (e) {
 		error = true;
 	}
 	this.assert(error, msg);
@@ -526,17 +529,17 @@ Validation.prototype.isJSON = function(msg) {
  * @param {object} arg2 An optional argument
  * @returns {object} The Validation object
  */
-Validation.prototype.hasLength = function(max, arg1, arg2) {
-	var self = this;
-	var msg = findFirstOfType([arg1, arg2], 'string') || 'Validation failed: length does not fall between the given values';	
-	var min = findFirstOfType([arg1, arg2], 'number') || 0;		
-	var str = self.obj.toString();
-	var error = str.length > max;
+Validation.prototype.hasLength = function (max, arg1, arg2) {
+	var self = this,
+		msg = findFirstOfType([arg1, arg2], 'string') || 'Validation failed: length does not fall between the given values',
+		min = findFirstOfType([arg1, arg2], 'number') || 0,
+		str = self.obj.toString(),
+		error = str.length > max;
 
 	if (!error) {
 		error = (str.length < min);
 	}
-	
+
 	this.assert(error, msg);
 	return this;
 };
@@ -546,7 +549,7 @@ Validation.prototype.hasLength = function(max, arg1, arg2) {
  * @param {string} msg An optional error message
  * @returns {object} The Validation object
  */
-Validation.prototype.isPromise = function(msg) {
+Validation.prototype.isPromise = function (msg) {
 	var self = this;
 	msg = msg || 'Validation failed: object is not a promise';
 	var error = ((typeof Promise === 'undefined') || !(self.obj instanceof Promise));
@@ -559,7 +562,7 @@ Validation.prototype.isPromise = function(msg) {
  * @param {string} msg An optional error message
  * @returns {object} The Validation object
  */
-Validation.prototype.isDate = function(msg) {
+Validation.prototype.isDate = function (msg) {
 	var self = this;
 	msg = msg || 'Validation failed: object is not a date';
 	var error = !(self.obj instanceof Date);
@@ -572,7 +575,7 @@ Validation.prototype.isDate = function(msg) {
  * @param {string} msg An optional error message
  * @returns {object} The Validation object
  */
-Validation.prototype.isError = function(msg) {
+Validation.prototype.isError = function (msg) {
 	var self = this;
 	msg = msg || 'Validation failed: object is not an error';
 	var error = !(self.obj instanceof Error);
@@ -584,7 +587,7 @@ Validation.prototype.isError = function(msg) {
  * Negates the validation logic
  * @returns {object} The Validation object
  */
-Validation.prototype.not = function() {
+Validation.prototype.not = function () {
 	this.negated = !this.negated;
 	return this;
 };
@@ -593,7 +596,7 @@ Validation.prototype.not = function() {
  * Validates an object
  * @returns {object} The Validation object
  */
-Object.prototype.validate = function() {
+Object.prototype.validate = function () {
 	return Validation.validate(this);
 };
 
@@ -601,7 +604,7 @@ Object.prototype.validate = function() {
  * Validates an object
  * @returns {object} The Validation object
  */
-Validation.validate = function(obj) {
+Validation.validate = function (obj) {
 	var val = new Validation(obj);
 	return val;
 };
